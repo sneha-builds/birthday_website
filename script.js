@@ -158,8 +158,34 @@
 
 
 // ===== QUIZ GATE LOGIC (Out-of-the-box Verification) =====
+
+
+
+
+const facts = [
+  "You've survived 5,475 days of my absolute drama.",
+  "You have the absolute purest soul out of anyone I know.",
+  "We officially know too many secrets to ever stop being friends.",
+  "You are hands down the best family I ever got to choose."
+];
+
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("compliment-btn");
+  const text = document.getElementById("compliment-text");
+  if(btn && text) {
+    btn.addEventListener("click", () => {
+      const randomFact = facts[Math.floor(Math.random() * facts.length)];
+      text.innerText = randomFact;
+      // Triggers a tiny confetti burst whenever she changes the fact
+      if(typeof burst === 'function') burst();
+    });
+  }
+});  
+
+
+
 const questions = [
-  { q: "How many years have we officially been best friends?", a: ["10 years", "15 years! +", "Too many to count 😂"], correct: 1 },
+  { q: "How many years have we officially been best friends?", a: ["10 years", "15 years!", "Too many to count 😂"], correct: 1 },
   { q: "What would happen if you weren't in my life?", a: ["I'd be totally fine.", "My life would be an absolute mess! 🥹"], correct: 1 }
 ];
 
