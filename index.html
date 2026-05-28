@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>🎂 Happy Birthday Divya!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ============ COVER PAGE ============ -->
+<div id="cover">
+  <div class="balloons">
+    <div class="balloon b1"><div class="string"></div><div class="balloon-head">🎀</div></div>
+    <div class="balloon b2"><div class="string"></div><div class="balloon-head">🌸</div></div>
+    <div class="balloon b3"><div class="string"></div><div class="balloon-head">💖</div></div>
+    <div class="balloon b4"><div class="string"></div><div class="balloon-head">🎈</div></div>
+    <div class="balloon b5"><div class="string"></div><div class="balloon-head">🦋</div></div>
+    <div class="balloon b6"><div class="string"></div><div class="balloon-head">✨</div></div>
+  </div>
+
+  <div class="gift-wrapper">
+    <div class="gift-box">
+      <div class="gift-glow"></div>
+      <div class="sparkle-ring"></div>
+      <div class="bow">🎀</div>
+      <div class="gift-lid"></div>
+      <div class="gift-body"></div>
+    </div>
+  </div>
+
+  <div class="cover-text">
+    <div class="line1">A text message just didn&rsquo;t feel like enough<br>for 15 years of friendship,<br>so I built this code for you&hellip; ✨</div>
+    <div class="line2">It&rsquo;s not much, but still, it&rsquo;s a tiny reminder<br>of how much you mean to me. 💖</div>
+    <div class="click-hint" onclick="openCard()">✦ Tap here to open ✦</div>
+  </div>
+</div>
+
+<!-- ============ INSIDE PAGE ============ -->
+<div id="inside">
+  <div class="inside-content">
+    <div class="heading-wrap">
+      <div class="birthday-text">Happy Birthday</div>
+      <span class="candle-icon">🕯️</span>
+    </div>
+    <div class="birthday-text name">Divya! 🎂</div>
+    <div class="subtitle">✨ Celebrate this beautiful day ✨</div>
+
+    <div class="message-card">
+      <p>
+        15 years. 180 months. 5,475 days. And somehow, you still haven&rsquo;t blocked me! 😂<br><br>
+        Happy Birthday to my one and only <span class="hl">Divya</span>, my sister for a decade and a half.<br><br>
+        From being clueless kids to whatever we are now, thank you for always being the truest, purest soul by my side.<br><br>
+        Honestly, I can&rsquo;t even imagine a universe where we aren&rsquo;t best friends&mdash;mostly because my life would be a total mess without you. 🥹❤️<br><br>
+        May this major milestone year bring you all the success, endless joy & love the world has to offer.<br><br>
+        I am praying so hard that we get to meet up soon for a long time, because we have quite a lot of gossip and a lifetime of memories to catch up on.<br><br>
+        <span class="hlp">Happy Birthday to the family I chose. I love you to the moon and back, forever! 💖🥂✨</span>
+      </p>
+    </div>
+  </div>
+
+  <div class="floater-container" id="floaterContainer"></div>
+
+  <div class="music-toggle" id="musicBtn" onclick="toggleMusic()">🔇</div>
+  <div class="footer">Made with ❤️ just for you <br>from Sneha </div>
+</div>
+
+<!-- ============ CONFETTI ============ -->
+<canvas id="confetti-canvas"></canvas>
+
+<script src="script.js"></script>
+</body>
+</html>
