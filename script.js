@@ -321,33 +321,67 @@ function note(freq,dur,time,type='sine',gain=.1){
   const o=actx.createOscillator(),g=actx.createGain();
   o.type=type;o.frequency.setValueAtTime(freq,time);
   g.gain.setValueAtTime(gain,time);
-  g.gain.exponentialRampToValueAtTime(.001,time+dur);
+  g.gain.linearRampToValueAtTime(gain*.8,time+dur*.3);
+  g.gain.linearRampToValueAtTime(.001,time+dur);
   o.connect(g);g.connect(actx.destination);
   o.start(time);o.stop(time+dur);
+}
+
+function chord(freqs,dur,time,gain=.03){
+  freqs.forEach(f=>note(f,dur,time,'sine',gain));
 }
 
 function playSong(){
   initAudio();
   if(actx.state==='suspended')actx.resume();
   const t=actx.currentTime;
-  const mel=[
-    [392,.3],[392,.3],[440,.45],[392,.45],[523,.45],[494,.6],
-    [0,.15],[392,.3],[392,.3],[440,.45],[392,.45],[587,.45],[523,.6],
-    [0,.15],[392,.3],[392,.3],[784,.5],[659,.45],[523,.4],[494,.4],[440,.5],
-    [0,.15],[698,.3],[698,.3],[659,.45],[523,.4],[587,.4],[523,.65],
+
+  // Master gain with fade-in to avoid ear shock
+  const master=actx.createGain();
+  master.gain.setValueAtTime(0,t);
+  master.gain.linearRampToValueAtTime(.55,t+3);
+  master.connect(actx.destination);
+
+  function softNote(f,d,tm,ty,g){
+    const o=actx.createOscillator(),gn=actx.createGain();
+    o.type=ty;o.frequency.setValueAtTime(f,tm);
+    gn.gain.setValueAtTime(g*.4,tm);
+    gn.gain.linearRampToValueAtTime(g*.3,tm+d*.3);
+    gn.gain.linearRampToValueAtTime(.001,tm+d);
+    o.connect(gn);gn.connect(master);
+    o.start(tm);o.stop(tm+d);
+  }
+  function softChord(fs,d,tm,g){fs.forEach(f=>softNote(f,d,tm,'sine',g))}
+
+  const mel = [
+    [262,.55,0],[262,.5,.65],[294,.7,1.25],[262,.65,2.05],[349,.7,2.8],[330,.95,3.6],
+    [262,.55,4.7],[262,.5,5.35],[294,.7,5.95],[262,.65,6.75],[392,.7,7.5],[349,.95,8.3],
+    [262,.55,9.4],[262,.5,10.05],[523,.75,10.65],[440,.6,11.5],[349,.55,12.2],[330,.55,12.85],[294,.7,13.5],
+    [466,.55,14.35],[466,.5,15.0],[440,.7,15.6],[349,.6,16.4],[392,.6,17.1],[349,1.1,17.8],
   ];
-  let time=t;
-  mel.forEach(([f,d])=>{
-    if(f>0){
-      note(f,d,time,'sine',.10);
-      note(f,d,time,'triangle',.04);
-    }
-    time+=d+.04;
+  const pads = [
+    [[262,330,392],0,2.5],[[262,330,392],2.5,2.5],
+    [[349,440,523],5,2.5],[[349,440,523],7.5,2.5],
+    [[392,494,587],10,2.5],[[392,494,587],12.5,2.5],
+    [[262,330,392],15,2.5],[[262,330,392],17.5,2.5],
+  ];
+
+  // Intro arpeggio
+  [262,330,392,523].forEach((f,i)=>softNote(f,.5,t+i*.3,'sine',.02));
+
+  pads.forEach(([f,d,st])=>softChord(f,d,t+st,.012));
+  mel.forEach(([f,d,st])=>{
+    softNote(f,d,t+st,'sine',.05);
+    softNote(f,d,t+st,'triangle',.02);
+    softNote(f/2,d*1.3,t+st,'sine',.008);
   });
-  time+=.6;
-  mel.forEach(([f,d])=>{
-    if(f>0)note(f*1.5,d*1.1,time,'sine',.05);
-    time+=d+.04;
+
+  // Repeat softer
+  const t2=t+19.5;
+  pads.forEach(([f,d,st])=>softChord(f,d,t2+st,.007));
+  mel.forEach(([f,d,st])=>{
+    softNote(f*1.01,d,t2+st,'sine',.03);
+    softNote(f*1.01,d,t2+st,'triangle',.015);
   });
 }
 
@@ -362,7 +396,7 @@ function toggleMusic(){
     btn.textContent='\uD83C\uDFB5';
     initAudio();
     playSong();
-    songTimer=setInterval(playSong,28000);
+    songTimer=setInterval(playSong,42000);
   }
 }
 
